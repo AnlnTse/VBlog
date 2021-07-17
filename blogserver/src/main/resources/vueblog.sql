@@ -2,9 +2,9 @@
 Date: 2017-12-26 18:36:12
 */
 
-CREATE DATABASE `vueblog2` DEFAULT CHARACTER SET utf8;
+CREATE DATABASE `vueblogDB` DEFAULT CHARACTER SET utf8;
 
-USE `vueblog2`;
+USE `vueblogDB`;
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -257,7 +257,7 @@ CREATE TABLE `user` (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('6', 'linghu', '令狐葱', '202cb962ac59075b964b07152d234b70', '1', 'linghu@qq.com', 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1514093920326&di=44a6fa6b597d86f475c2b15fa93008dd&imgtype=0&src=http%3A%2F%2Fwww.qqzhi.com%2Fuploadpic%2F2015-01-12%2F023019564.jpg', '2017-12-08 09:30:22');
-INSERT INTO `user` VALUES ('7', 'anlntse', '江南一点雨', '202cb962ac59075b964b07152d234b70', '1', 'anlntse123@qq.com', 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1514093920321&di=913e88c23f382933ef430024afd9128a&imgtype=0&src=http%3A%2F%2Fp.3761.com%2Fpic%2F9771429316733.jpg', '2017-12-21 13:30:29');
+INSERT INTO `user` VALUES ('7', 'anlntse', 'xiejun', '202cb962ac59075b964b07152d234b70', '1', 'anlntse123@qq.com', 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1514093920321&di=913e88c23f382933ef430024afd9128a&imgtype=0&src=http%3A%2F%2Fp.3761.com%2Fpic%2F9771429316733.jpg', '2017-12-21 13:30:29');
 INSERT INTO `user` VALUES ('10', 'qiaofeng', '乔峰', '202cb962ac59075b964b07152d234b70', '1', 'qiaofeng@qq.com', 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1514093920321&di=913e88c23f382933ef430024afd9128a&imgtype=0&src=http%3A%2F%2Fp.3761.com%2Fpic%2F9771429316733.jpg', '2017-12-24 06:30:46');
 INSERT INTO `user` VALUES ('13', 'duanzhengchun', '段正淳', '202cb962ac59075b964b07152d234b70', '0', 'duanzhengchun@qq.com', 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1514093920321&di=913e88c23f382933ef430024afd9128a&imgtype=0&src=http%3A%2F%2Fp.3761.com%2Fpic%2F9771429316733.jpg', '2017-12-24 06:30:46');
 INSERT INTO `user` VALUES ('14', 'chenjialuo', '陈家洛', '202cb962ac59075b964b07152d234b70', '0', 'chenjialuo@qq.com', 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1514093920321&di=913e88c23f382933ef430024afd9128a&imgtype=0&src=http%3A%2F%2Fp.3761.com%2Fpic%2F9771429316733.jpg', '2017-12-24 06:30:46');

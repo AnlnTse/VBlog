@@ -1,5 +1,6 @@
 package org.anlntse.controller.admin;
 
+import org.anlntse.bean.Article;
 import org.anlntse.bean.RespBean;
 import org.anlntse.bean.Role;
 import org.anlntse.bean.User;
@@ -60,6 +61,17 @@ public class UserManaController {
             return new RespBean("success", "更新成功!");
         } else {
             return new RespBean("error", "更新失败!");
+        }
+    }
+
+
+    @RequestMapping(value = "/user/add", method = RequestMethod.POST)
+    public RespBean addNewUser(User user) {
+        int result = userService.addNewUser(user);
+        if (result == 1) {
+            return new RespBean("success", user.getId() + "");
+        } else {
+            return new RespBean("error", "新增失败!");
         }
     }
 }

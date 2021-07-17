@@ -1,5 +1,6 @@
 package org.anlntse.mapper;
 
+import org.anlntse.bean.Article;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.anlntse.bean.Role;
@@ -32,4 +33,6 @@ public interface UserMapper {
     int setUserRoles(@Param("rids") Long[] rids, @Param("id") Long id);
 
     User getUserById(@Param("id") Long id);
+
+    int addNewUser(User user);
 }

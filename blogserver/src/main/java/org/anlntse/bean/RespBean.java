@@ -1,7 +1,7 @@
 package org.anlntse.bean;
 
 /**
- * Created by anlntse on 2017/12/17.
+ * Created by anlntse on 2021/12/17.
  */
 public class RespBean {
     private String status;

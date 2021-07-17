@@ -15,13 +15,16 @@
         <div slot="header" style="text-align: left">
           <span>{{user.nickname}}</span>
           <el-button style="float: right; padding: 3px 0;color: #ff0509" type="text" icon="el-icon-delete"
+                     @click="addUser(user)">新增
+          </el-button>
+          <el-button style="float: right; padding: 3px 0;color: #ff0509" type="text" icon="el-icon-delete"
                      @click="deleteUser(user.id)">删除
           </el-button>
         </div>
         <div>
-          <div><img :src="user.userface" :alt="user.nickname" style="width: 70px;height: 70px"></div>
+         <!-- <div><img :src="user.userface" :alt="user.nickname" style="width: 70px;height: 70px"></div>-->
           <div style="text-align: left;color:#20a0ff;font-size: 12px;margin-top: 13px">
-            <span>用户名:</span><span>{{user.username}}</span>
+            <span>用户名1:</span><span>{{user.username}}</span>
           </div>
           <div style="text-align: left;color:#20a0ff;font-size: 12px;margin-top: 13px">
             <span>电子邮箱:</span><span>{{user.email}}</span>
@@ -130,6 +133,33 @@
         for (var i = 0; i < aRoles.length; i++) {
           this.roles.push(aRoles[i].id);
         }
+      },
+      addUser(id){
+        var _this = this;
+        this.$confirm('删除该用户, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          _this.loading = true;
+          deleteRequest("/admin/user/" + id).then(resp=> {
+            if (resp.status == 200 && resp.data.status == 'success') {
+              _this.$message({type: 'success', message: '删除成功!'})
+              _this.loadUserList();
+              return;
+            }
+            _this.loading = false;
+            _this.$message({type: 'error', message: '删除失败!'})
+          }, resp=> {
+            _this.loading = false;
+            _this.$message({type: 'error', message: '删除失败!'})
+          });
+        }).catch(() => {
+          _this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       },
       deleteUser(id){
         var _this = this;
