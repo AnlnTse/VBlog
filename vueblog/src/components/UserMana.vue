@@ -1,33 +1,5 @@
 <template>
-
-
-
   <div v-loading="loading">
-
-
-<!--
-    <div class="systemConfiguration">
-      <div class="operateHead">
-        <el-row>
-          <el-col :span="24">
-            <el-form :inline="true" class="demo-form-inline" label-width="0px">
-              <el-form-item>
-                <div class="searchBox" style="width:420px">
-                  &lt;!&ndash;<el-input v-model="" placeholder="应用系统名称" clearable style="width: 40%;"></el-input>&ndash;&gt;
-                  <el-button type="primary" icon="el-icon-search" class="searchBtn" @click="handleSearch">搜索</el-button>
-                  <el-button type="primary" icon="el-icon-search" class="searchBtn" @click="handleAll">查看所有</el-button>
-                </div>
-              </el-form-item>
-              <el-form-item style="float: right;">
-                <el-button type="primary" icon="el-icon-plus" @click="handleAdd">新增</el-button>
-              </el-form-item>
-            </el-form>
-          </el-col>
-        </el-row>
-      </div>
-    </div>-->
-
-
 
 
     <div style="margin-top: 10px;display: flex;justify-content: center">
@@ -38,9 +10,12 @@
       </el-input>
       <el-button type="primary" icon="el-icon-search" size="small" style="margin-left: 3px" @click="searchClick">搜索
       </el-button>
-      <el-button type="primary" icon="el-icon-plus" size="small" style="margin-left: 3px" @click="searchClick">新增
+      <el-button type="primary" icon="el-icon-plus" size="small" style="margin-left: 3px" @click="handleAdd">新增
       </el-button>
     </div>
+
+
+
     <div style="display: flex;justify-content: space-around;flex-wrap: wrap">
       <el-card style="width:330px;margin-top: 10px;" v-for="(user,index) in users" :key="index"
                v-loading="cardloading[index]">
@@ -104,9 +79,68 @@
         </div>
       </el-card>
     </div>
+
+
+    <el-dialog :close-on-click-modal="false"
+               :title="dialogTitle"
+               :visible.sync="dialogVisible"
+               @close="handleClose"
+               width="500px">
+      <el-form :model="formInline" :rules="rules" ref="ruleForm" label-width="130px">
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="formInline.username" v-if="dialogType == 'add'"></el-input>
+          <el-input v-model="formInline.username" v-else disabled></el-input>
+        </el-form-item>
+        <!--<el-form-item label="应用系统名称" prop="username">
+          <el-input v-model="formInline.username" @blur="handleName" :disabled="dialogType == 'update'"></el-input>
+        </el-form-item>-->
+        <el-form-item label="电子邮箱" prop="email">
+          <el-input v-model="formInline.email" :disabled="dialogType == 'update'"></el-input>
+        </el-form-item>
+        <!--<el-form-item label="部门" prop="departmentId">
+          <el-select v-model="formInline.departmentId" style="width: 330px;" ref="selectDept"
+                     :disabled="dialogType == 'update'">
+            <el-option :value="formInline.departmentId" :label="formInline.departmentName"
+                       style="width: 330px; height: 180px; overflow: auto;">
+              <el-tree :data="departmentTree"
+                       :props="defaultProps"
+                       @node-click="handleNodeClick">
+              </el-tree>
+            </el-option>
+          </el-select>
+        </el-form-item>-->
+        <!--<el-form-item label="联系人" prop="user">
+          <el-select v-model="formInline.user" filterable style="width: 330px;" @change="changeOwner">
+            <el-option v-for="item in userData" :key="item.id" :label="item.email" :value="item.id"></el-option>
+          </el-select>
+        </el-form-item>-->
+        <!--<el-form-item label="联系人电话" prop="mobile">
+          <el-input v-model="formInline.mobile" :disabled="dialogType == 'update'"></el-input>
+        </el-form-item>
+        <el-form-item label="部署目录" prop="deployFolder">
+          <el-input v-model="formInline.deployFolder" :disabled="dialogType == 'update'"></el-input>
+        </el-form-item>
+        <el-form-item label="系统说明" prop="description">
+          <el-input v-model="formInline.description" type="textarea" :disabled="dialogType == 'update'"></el-input>
+        </el-form-item>-->
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="handleSave">确 定</el-button>
+      </span>
+    </el-dialog>
+
+
+
+
+
+
+
+
   </div>
 </template>
 <script>
+  import {postRequest} from '../utils/api'
   import {getRequest} from '../utils/api'
   import {putRequest} from '../utils/api'
   import {deleteRequest} from '../utils/api'
@@ -123,6 +157,85 @@
       });
     },
     methods: {
+
+      // 弹框关闭重置校验
+      handleClose() {
+        this.$refs['ruleForm'].resetFields()
+      },
+
+      // 新增
+      handleAdd() {
+        this.dialogTitle = '新增用户信息'
+        this.formInline = {
+          id: '',
+          username: '',
+          appSystemName: '',
+          email: '',
+          departmentId: '',
+          departmentName: '',
+          user: '',
+          mobile: '',
+          deployFolder: '',
+          description: ''
+        }
+        this.dialogVisible = true
+        this.dialogType = "add"
+      },
+
+      // 新增/修改保存
+      handleSave() {
+        this.$refs['ruleForm'].validate((valid) => {
+          if (valid) {
+            let url = ''
+            let params = {}
+            let message = ''
+            let now = new Date()
+            // let year = now.getFullYear()+""
+            // let month = now.getMonth() + ""
+            // let day = now.getDate()+"";
+            // let createDt = year + month + day
+            if (this.dialogTitle == '新增用户信息') {
+              debugger
+              url = '/admin/user/add'
+              params = {
+                username: this.formInline.username,
+                email: this.formInline.email,
+              }
+              message = '新增成功'
+            } else {
+              url = '/api/app_system/update'
+              params = {
+                id: this.formInline.id,
+                username: this.formInline.username,
+                email: this.formInline.email,
+              }
+              message = '修改成功'
+            }
+            console.log(params)
+
+            var _this = this;
+            // postRequest('url', {cateName: this.cateName}).then(resp=> {
+            postRequest(url, params).then(resp=> {
+              if (resp.status == 200) {
+                var json = resp.data;
+                _this.$message({type: json.status, message: json.msg});
+                _this.cateName = '';
+                _this.refresh();
+              }
+              _this.loading = false;
+            }, resp=> {
+              if (resp.response.status == 403) {
+                _this.$message({
+                  type: 'error',
+                  message: resp.response.data
+                });
+              }
+              _this.loading = false;
+            });
+          }
+        });
+      },
+
       saveRoles(id, index) {
         var selRoles = this.roles;
         if (this.cpRoles.length == selRoles.length) {
@@ -164,37 +277,6 @@
           this.roles.push(aRoles[i].id);
         }
       },
-      /*saveUser(state){
-        debugger
-        if (!(isNotNullORBlank(this.article.title, this.article.mdContent, this.article.cid))) {
-          this.$message({type: 'error', message: '数据不能为空!'});
-          return;
-        }
-        var _this = this;
-        _this.loading = true;
-        postRequest("/article/", {
-          id: _this.article.id,
-          title: _this.article.title,
-          mdContent: _this.article.mdContent,
-          htmlContent: _this.$refs.md.d_render,
-          cid: _this.article.cid,
-          state: state,
-          dynamicTags: _this.article.dynamicTags
-        }).then(resp=> {
-          _this.loading = false;
-          if (resp.status == 200 && resp.data.status == 'success') {
-            _this.article.id = resp.data.msg;
-            _this.$message({type: 'success', message: state == 0 ? '保存成功!' : '发布成功!'});
-            window.bus.$emit('blogTableReload')
-            if (state == 1) {
-              _this.$router.replace({path: '/articleList'});
-            }
-          }
-        }, resp=> {
-          _this.loading = false;
-          _this.$message({type: 'error', message: state == 0 ? '保存草稿失败!' : '博客发布失败!'});
-        })
-      },*/
       handleAddUser() {
         var _this = this;
         this.$prompt('请输入用户名称', '新增用户', {
@@ -329,6 +411,7 @@
         this.loadUserList();
       }
     },
+
     data() {
       return {
         loading: false,
@@ -338,7 +421,55 @@
         users: [],
         allRoles: [],
         roles: [],
-        cpRoles: []
+        cpRoles: [],
+
+
+        userData: [], // 所有用户
+        dialogVisible: false, // 新增/修改弹框展示
+        dialogTitle: '新增用户',// 新增/修改弹框标题
+        dialogType: "", // 类型是新增，还是修改
+        formInline: { // 新增/修改弹框表单
+          username: '',
+          appSystemName: '',
+          email: '',
+          departmentId: '',
+          departmentName: '',
+          user: '',
+          mobile: '',
+          deployFolder: '',
+          description: ''
+        },
+
+
+        rules: { // 新增/修改弹框校验
+          username: [
+            {required: true, message: '请输入', trigger: 'blur'}
+          ],
+          appSystemName: [
+            {required: true, message: '请输入', trigger: 'blur'}
+          ],
+          email: [
+            {required: true, message: '请输入', trigger: 'blur'}
+          ],
+          departmentId: [
+            {required: true, message: '请选择', trigger: 'blur'}
+          ],
+          user: [
+            {required: true, message: '请选择', trigger: 'blur'}
+          ],
+          mobile: [
+            {pattern: /^1[3|4|5|7|8|9][0-9]\d{8}$/, message: '请输入正确的手机号', trigger: 'blur'}
+          ],
+          deployFolder: [
+            {required: true, message: '请输入', trigger: 'blur'}
+          ],
+          description: [
+            {required: true, message: '请输入', trigger: 'blur'}
+          ],
+        },
+
+
+
       }
     }
   }
