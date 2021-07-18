@@ -6,11 +6,15 @@ import org.anlntse.bean.Category;
 
 import java.util.List;
 
+
 /**
- * Created by anlntse on 2017/12/19.
- */
+ * @author: Jun Xie
+ * @date: 7/18/21
+ **/
+
 @Mapper
 public interface CategoryMapper {
+
     List<Category> getAllCategories();
 
     int deleteCategoryByIds(@Param("ids") String[] ids);

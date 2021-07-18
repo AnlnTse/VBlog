@@ -61,6 +61,7 @@
   export default{
     methods: {
       addNewCate(){
+        debugger
         this.loading = true;
         var _this = this;
         postRequest('/admin/category/', {cateName: this.cateName}).then(resp=> {
@@ -103,12 +104,14 @@
         this.selItems = val;
       },
       handleEdit(index, row){
+        debugger
         var _this = this;
         this.$prompt('请输入新名称', '编辑', {
           confirmButtonText: '更新',
           inputValue: row.cateName,
           cancelButtonText: '取消'
         }).then(({value}) => {
+          debugger
           //value就是输入值
           if (value == null || value.length == 0) {
             _this.$message({

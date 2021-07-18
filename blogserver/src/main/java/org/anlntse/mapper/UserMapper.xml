@@ -6,6 +6,11 @@
     <select id="loadUserByUsername" resultType="org.anlntse.bean.User">
         SELECT * FROM user WHERE username=#{username}
     </select>
+
+    <insert id="addNewUser" parameterType="org.anlntse.bean.User">
+        INSERT INTO category SET date=#{date},cateName=#{cateName}
+    </insert>
+
     <insert id="reg" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO user set username=#{username},password=#{password},nickname=#{nickname}
     </insert>

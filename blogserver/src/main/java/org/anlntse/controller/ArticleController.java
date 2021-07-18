@@ -17,8 +17,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Created by anlntse on 2017/12/20.
- */
+ * @author: Jun Xie
+ * @date: 7/18/21
+ **/
 @RestController
 @RequestMapping("/article")
 public class ArticleController {
