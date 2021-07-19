@@ -8,7 +8,7 @@
     </select>
 
     <insert id="addNewUser" parameterType="org.anlntse.bean.User">
-        INSERT INTO user SET username=#{username},password=#{password}
+        INSERT INTO user SET username=#{username},nickname=#{nickname},password=#{password},email=#{email},regTime=#{regTime},enabled=#{enabled}
     </insert>
 
     <insert id="reg" useGeneratedKeys="true" keyProperty="id">

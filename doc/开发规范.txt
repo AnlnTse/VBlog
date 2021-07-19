@@ -13,3 +13,6 @@ Java Entity类写法规范
 
 
 additionalFilters 过滤器
+
+
+additionalAuthenticationChecks 鉴权

@@ -94,7 +94,7 @@
           <el-input v-model="formInline.username" @blur="handleName" :disabled="dialogType == 'update'"></el-input>
         </el-form-item>-->
         <el-form-item label="电子邮箱" prop="email">
-          <el-input v-model="formInline.email" :disabled="dialogType == 'update'"></el-input>
+          <el-input v-model="formInline.email""></el-input>
         </el-form-item>
 
 
