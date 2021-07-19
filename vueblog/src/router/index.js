@@ -65,7 +65,7 @@ export default new Router({
     }, {
       path: '/home',
       component: Home,
-      name: '用户管理',
+      name: '系统管理',
       children: [
         {
           path: '/user',
@@ -75,7 +75,7 @@ export default new Router({
         }, {
           path: '/test',
           iconCls: 'fa fa-user-o',
-          name: '测试管理',
+          name: '角色管理',
           component: TestMana
         }
       ]

@@ -8,7 +8,11 @@
     </select>
 
     <insert id="addNewUser" parameterType="org.anlntse.bean.User">
+<<<<<<< HEAD
         INSERT INTO user SET username=#{username},nickname=#{nickname},password=#{password},email=#{email},regTime=#{regTime},enabled=#{enabled}
+=======
+        INSERT INTO category SET date=#{date},cateName=#{cateName}
+>>>>>>> parent of 0d8fa9e... 1. 修改服务端异常，后处理
     </insert>
 
     <insert id="reg" useGeneratedKeys="true" keyProperty="id">
@@ -47,9 +51,6 @@
             <result column="rname" property="name"/>
         </collection>
     </resultMap>
-    <select id="getAllUser" resultType="org.anlntse.bean.User">
-        select * from user;
-    </select>
     <select id="getAllRole" resultType="org.anlntse.bean.Role">
         select * from roles;
     </select>

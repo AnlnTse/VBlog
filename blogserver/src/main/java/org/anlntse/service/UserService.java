@@ -1,7 +1,9 @@
 package org.anlntse.service;
 
+import org.anlntse.bean.Article;
 import org.anlntse.bean.Role;
 import org.anlntse.bean.User;
+import org.anlntse.config.MyPasswordEncoder;
 import org.anlntse.mapper.RolesMapper;
 import org.anlntse.mapper.UserMapper;
 import org.anlntse.utils.Util;
@@ -12,9 +14,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
+import org.springframework.util.DigestUtils;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -24,27 +26,62 @@ import java.util.List;
 @Transactional
 public class UserService implements UserDetailsService {
     @Autowired
-    UserMapper userMapper;
+    public UserMapper userMapper;
     @Autowired
-    RolesMapper rolesMapper;
+    public RolesMapper rolesMapper;
     @Autowired
     PasswordEncoder passwordEncoder;
 
     public int addNewUser(User user) {
-        User addUser = userMapper.loadUserByUsername(user.getUsername());
-        if(!ObjectUtils.isEmpty(addUser)){
-            return 1; //已存在
+        //处理文章摘要
+       /* if (article.getSummary() == null || "".equals(article.getSummary())) {
+            //直接截取
+            String stripHtml = stripHtml(article.getHtmlContent());
+            article.setSummary(stripHtml.substring(0, stripHtml.length() > 50 ? 50 : stripHtml.length()));
         }
-        user.setNickname(user.getUsername());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setEmail(user.getEmail());
-        user.setRegTime(new java.sql.Timestamp(new Date().getTime()));
-        user.setEnabled(true);//用户可用
-        int result = userMapper.addNewUser(user);
-        //配置用户的角色，默认都是普通用户
-       /* String[] roles = new String[]{"2"};
-        int i = rolesMapper.addRoles(roles, user.getId());*/
-        return 0;
+        if (article.getId() == -1) {
+            //添加操作
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            if (article.getState() == 1) {
+                //设置发表日期
+                article.setPublishDate(timestamp);
+            }
+            article.setEditTime(timestamp);
+            //设置当前用户
+            article.setUid(Util.getCurrentUser().getId());
+            int i = articleMapper.addNewArticle(article);
+            //打标签
+            String[] dynamicTags = article.getDynamicTags();
+            if (dynamicTags != null && dynamicTags.length > 0) {
+                int tags = addTagsToArticle(dynamicTags, article.getId());
+                if (tags == -1) {
+                    return tags;
+                }
+            }
+            return i;
+        } else {
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            if (article.getState() == 1) {
+                //设置发表日期
+                article.setPublishDate(timestamp);
+            }
+            //更新
+            article.setEditTime(new Timestamp(System.currentTimeMillis()));
+            int i = articleMapper.updateArticle(article);
+            //修改标签
+            String[] dynamicTags = article.getDynamicTags();
+            if (dynamicTags != null && dynamicTags.length > 0) {
+                int tags = addTagsToArticle(dynamicTags, article.getId());
+                if (tags == -1) {
+                    return tags;
+                }
+            }
+            return i;
+        }*/
+
+
+        userMapper.addNewUser(user);
+        return 1;
 
     }
 
@@ -71,7 +108,7 @@ public class UserService implements UserDetailsService {
     public int reg(User user) {
         User loadUserByUsername = userMapper.loadUserByUsername(user.getUsername());
         if (loadUserByUsername != null) {
-            return 1;//已存在
+            return 1;
         }
         //插入用户,插入之前先对密码进行加密
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -116,9 +153,5 @@ public class UserService implements UserDetailsService {
 
     public User getUserById(Long id) {
         return userMapper.getUserById(id);
-    }
-
-    public List<User> getAllUser() {
-        return userMapper.getAllUser();
     }
 }

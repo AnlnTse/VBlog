@@ -21,7 +21,8 @@
         <el-menu
           default-active="0"
           class="el-menu-vertical-demo" style="background-color: #ECECEC" router>
-          <template v-for="(item,index) in this.menu" v-if="!item.hidden">
+          <!--<template v-for="(item,index) in this.menu" v-if="!item.hidden"> 自定义菜单-->
+          <template v-for="(item,index) in this.$router.options.routes" v-if="!item.hidden">
             <el-submenu :index="index+''" v-if="item.children.length>=1" :key="index">
               <template slot="title">
                 <i :class="item.iconCls"></i>
@@ -100,7 +101,7 @@
     },
     data() {
       return {
-        currentUserName: '',
+        //自定义菜单
         menu: [
           {name: '1', children: [{name: '3'}]},
           {name: '2', children: [{name: '4'}]}

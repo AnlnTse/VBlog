@@ -22,14 +22,9 @@ public class UserManaController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/userByNickName", method = RequestMethod.GET)
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
     public List<User> getUserByNickname(String nickname) {
         return userService.getUserByNickname(nickname);
-    }
-
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public List<User> getAllUser() {
-        return userService.getAllUser();
     }
 
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
@@ -74,8 +69,9 @@ public class UserManaController {
     public RespBean addNewUser(User user) {
         int result = userService.addNewUser(user);
         if (result == 1) {
-            return new RespBean("error", "新增失败!用户已存在!");
+            return new RespBean("success", user.getId() + "");
+        } else {
+            return new RespBean("error", "新增失败!");
         }
-        return new RespBean("success", "用户" + user.getUsername() + "新增成功! ");
     }
 }
