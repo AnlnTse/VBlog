@@ -79,8 +79,6 @@
       </el-card>
     </div>
 
-    <router-view>  </router-view>
-
 
     <el-dialog :close-on-click-modal="false"
                :title="dialogTitle"
@@ -139,6 +137,8 @@
         <el-button type="primary" @click="handleSave">确 定</el-button>
       </span>
     </el-dialog>
+
+
   </div>
 </template>
 <script>

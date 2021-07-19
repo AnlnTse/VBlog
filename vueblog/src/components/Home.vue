@@ -21,8 +21,8 @@
         <el-menu
           default-active="0"
           class="el-menu-vertical-demo" style="background-color: #ECECEC" router>
-          <template v-for="(item,index) in this.$router.options.routes" v-if="!item.hidden">
-            <el-submenu :index="index+''" v-if="item.children.length>1" :key="index">
+          <template v-for="(item,index) in this.menu" v-if="!item.hidden">
+            <el-submenu :index="index+''" v-if="item.children.length>=1" :key="index">
               <template slot="title">
                 <i :class="item.iconCls"></i>
                 <span>{{item.name}}</span>
@@ -69,11 +69,9 @@
             type: 'warning'
           }).then(function () {
             getRequest("/logout")
-            debugger
             _this.currentUserName = '未登录';
             _this.$router.replace({path: '/'});
           }, function () {
-            debugger
             console.log("取消")
             //取消
           })
@@ -87,7 +85,6 @@
         }
       });*/
       var _this = this;
-      debugger
       getRequest("/currentUserName").then(function (msg) {
         _this.currentUserName = msg.data;
       }, function (msg) {
@@ -103,7 +100,11 @@
     },
     data() {
       return {
-        currentUserName: ''
+        currentUserName: '',
+        menu: [
+          {name: '1', children: [{name: '3'}]},
+          {name: '2', children: [{name: '4'}]}
+        ]
       }
     }
   }

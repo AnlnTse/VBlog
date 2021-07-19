@@ -7,6 +7,7 @@ import CateMana from '@/components/CateMana'
 import DataCharts from '@/components/DataCharts'
 import PostArticle from '@/components/PostArticle'
 import UserMana from '@/components/UserMana'
+import TestMana from '@/components/TestMana'
 import BlogDetail from '@/components/BlogDetail'
 
 Vue.use(Router)
@@ -22,8 +23,18 @@ export default new Router({
       path: '/home',
       name: '',
       component: Home,
-      hidden: true
-    }, {
+      hidden: true,
+      /*children: [
+        {
+          path: '/articleList',
+          name: '文章列表',
+          component: ArticleList,
+          meta: {
+            keepAlive: true
+          }
+        }
+      ]*/
+    }/*, {
       path: '/home',
       component: Home,
       name: '文章管理',
@@ -70,7 +81,12 @@ export default new Router({
           path: '/user',
           iconCls: 'fa fa-user-o',
           name: '用户管理',
-          component: UserMana
+          component: UserMana,
+        }, {
+          path: '/test',
+          iconCls: 'fa fa-user-o',
+          name: '测试管理',
+          component: TestMana
         }
       ]
     }, {
@@ -98,6 +114,6 @@ export default new Router({
           component: DataCharts
         }
       ]
-    }
+    }*/
   ]
 })
