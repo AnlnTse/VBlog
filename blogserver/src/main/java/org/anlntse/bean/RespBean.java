@@ -1,8 +1,11 @@
 package org.anlntse.bean;
 
+
 /**
- * Created by anlntse on 2021/12/17.
- */
+ * @author: Jun Xie
+ * @date: 7/19/21
+ **/
+
 public class RespBean {
     private String status;
     private String msg;

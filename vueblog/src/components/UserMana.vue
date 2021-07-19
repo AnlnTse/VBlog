@@ -15,7 +15,6 @@
     </div>
 
 
-
     <div style="display: flex;justify-content: space-around;flex-wrap: wrap">
       <el-card style="width:330px;margin-top: 10px;" v-for="(user,index) in users" :key="index"
                v-loading="cardloading[index]">
@@ -97,6 +96,15 @@
         <el-form-item label="电子邮箱" prop="email">
           <el-input v-model="formInline.email" :disabled="dialogType == 'update'"></el-input>
         </el-form-item>
+
+
+        <el-form-item label="密码：" prop="password">
+          <el-input placeholder="请输入密码" v-model="formInline.password" show-password></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码：" prop="confirmPassword">
+          <el-input placeholder="请输入确认密码" v-model="formInline.confirmPassword" show-password></el-input>
+        </el-form-item>
+
         <!--<el-form-item label="部门" prop="departmentId">
           <el-select v-model="formInline.departmentId" style="width: 330px;" ref="selectDept"
                      :disabled="dialogType == 'update'">
@@ -129,12 +137,6 @@
         <el-button type="primary" @click="handleSave">确 定</el-button>
       </span>
     </el-dialog>
-
-
-
-
-
-
 
 
   </div>
@@ -171,6 +173,7 @@
           username: '',
           appSystemName: '',
           email: '',
+          password: '',
           departmentId: '',
           departmentName: '',
           user: '',
@@ -189,41 +192,29 @@
             let url = ''
             let params = {}
             let message = ''
-            let now = new Date()
-            // let year = now.getFullYear()+""
-            // let month = now.getMonth() + ""
-            // let day = now.getDate()+"";
-            // let createDt = year + month + day
             if (this.dialogTitle == '新增用户信息') {
               debugger
               url = '/admin/user/add'
               params = {
                 username: this.formInline.username,
                 email: this.formInline.email,
+                password: this.formInline.password,
               }
-              message = '新增成功'
-            } else {
-              url = '/api/app_system/update'
-              params = {
-                id: this.formInline.id,
-                username: this.formInline.username,
-                email: this.formInline.email,
-              }
-              message = '修改成功'
             }
             console.log(params)
-
             var _this = this;
-            // postRequest('url', {cateName: this.cateName}).then(resp=> {
-            postRequest(url, params).then(resp=> {
+            postRequest(url, params).then(resp => {
               if (resp.status == 200) {
                 var json = resp.data;
                 _this.$message({type: json.status, message: json.msg});
-                _this.cateName = '';
-                _this.refresh();
+                debugger
+                if (json.status == 'success') {
+                  _this.dialogVisible = false
+                }
+                _this.loadUserList();
+                return
               }
-              _this.loading = false;
-            }, resp=> {
+            }, resp => {
               if (resp.response.status == 403) {
                 _this.$message({
                   type: 'error',
@@ -319,6 +310,7 @@
           type: 'warning'
         }).then(() => {
           _this.loading = true;
+          debugger
           deleteRequest("/admin/user/" + id).then(resp => {
             if (resp.status == 200 && resp.data.status == 'success') {
               _this.$message({type: 'success', message: '删除成功!'})
@@ -332,6 +324,7 @@
             _this.$message({type: 'error', message: '删除失败!'})
           });
         }).catch(() => {
+          debugger
           _this.$message({
             type: 'info',
             message: '已取消删除'
@@ -391,18 +384,13 @@
       },
       loadUserList() {
         var _this = this;
-        getRequest("/admin/user?nickname=" + this.keywords).then(resp => {
+        // getRequest("/admin/userByNickName?nickname=" + this.keywords).then(resp => {
+        getRequest("/admin/users").then(resp => {
           _this.loading = false;
           if (resp.status == 200) {
             _this.users = resp.data;
           } else {
             _this.$message({type: 'error', message: '数据加载失败!'});
-          }
-        }, resp => {
-          _this.loading = false;
-          if (resp.response.status == 403) {
-            var data = resp.response.data;
-            _this.$message({type: 'error', message: data});
           }
         });
       },
@@ -432,12 +420,19 @@
           username: '',
           appSystemName: '',
           email: '',
+          password: '',
+          confirmPassword: '',
           departmentId: '',
           departmentName: '',
           user: '',
           mobile: '',
           deployFolder: '',
           description: ''
+        },
+
+        changePassword: {
+          password: '',
+          confirmPassword: ''
         },
 
 
@@ -449,6 +444,9 @@
             {required: true, message: '请输入', trigger: 'blur'}
           ],
           email: [
+            {required: true, message: '请输入', trigger: 'blur'}
+          ],
+          password: [
             {required: true, message: '请输入', trigger: 'blur'}
           ],
           departmentId: [
@@ -467,7 +465,6 @@
             {required: true, message: '请输入', trigger: 'blur'}
           ],
         },
-
 
 
       }

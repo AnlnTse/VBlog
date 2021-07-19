@@ -1,7 +1,7 @@
 <template>
   <el-container class="home_container">
     <el-header>
-      <div class="home_title">V部落博客管理平台</div>
+      <div class="home_title">VUE管理平台</div>
       <div class="home_userinfoContainer">
         <el-dropdown @command="handleCommand">
   <span class="el-dropdown-link home_userinfo">
@@ -57,9 +57,10 @@
 </template>
 <script>
   import {getRequest} from '../utils/api'
-  export default{
+
+  export default {
     methods: {
-      handleCommand(command){
+      handleCommand(command) {
         var _this = this;
         if (command == 'logout') {
           this.$confirm('注销登录吗?', '提示', {
@@ -68,9 +69,12 @@
             type: 'warning'
           }).then(function () {
             getRequest("/logout")
-            _this.currentUserName = '游客';
+            debugger
+            _this.currentUserName = '未登录';
             _this.$router.replace({path: '/'});
           }, function () {
+            debugger
+            console.log("取消")
             //取消
           })
         }
@@ -83,13 +87,21 @@
         }
       });*/
       var _this = this;
+      debugger
       getRequest("/currentUserName").then(function (msg) {
         _this.currentUserName = msg.data;
       }, function (msg) {
-        _this.currentUserName = '游客';
+        _this.$alert('服务器异常，请退出重试!', '友情提示', {
+          confirmButtonText: '确定',
+          callback: action => {
+            getRequest("/logout")
+            _this.currentUserName = '未登录';
+            _this.$router.replace({path: '/'});
+          }
+        });
       });
     },
-    data(){
+    data() {
       return {
         currentUserName: ''
       }

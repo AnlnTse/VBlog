@@ -41,6 +41,7 @@
           username: this.loginForm.username,
           password: this.loginForm.password
         }).then(resp=> {
+          debugger
           _this.loading = false;
           if (resp.status == 200) {
             //成功
@@ -57,6 +58,10 @@
         }, resp=> {
           _this.loading = false;
           _this.$alert('找不到服务器⊙﹏⊙∥!', '失败!');
+          debugger
+          _this.$router.replace({path: '/'});
+
+
         });
       }
     }

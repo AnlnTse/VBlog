@@ -1,18 +1,24 @@
 package org.anlntse.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by anlntse on 2017/12/17.
- */
+ * @author: Jun Xie
+ * @date: 7/19/21
+ **/
+
 public class User implements UserDetails {
+
     private Long id;
     private String username;
     private String password;
