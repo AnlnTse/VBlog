@@ -23,18 +23,8 @@ export default new Router({
       path: '/home',
       name: '',
       component: Home,
-      hidden: true,
-      /*children: [
-        {
-          path: '/articleList',
-          name: '文章列表',
-          component: ArticleList,
-          meta: {
-            keepAlive: true
-          }
-        }
-      ]*/
-    }/*, {
+      hidden: true
+    }, {
       path: '/home',
       component: Home,
       name: '文章管理',
@@ -114,6 +104,6 @@ export default new Router({
           component: DataCharts
         }
       ]
-    }*/
+    }
   ]
 })
