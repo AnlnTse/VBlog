@@ -51,7 +51,6 @@
     <select id="getAllUser" resultType="org.anlntse.bean.User">
         select * from user;
     </select>
-
     <select id="getAllRole" resultType="org.anlntse.bean.Role">
         select * from roles;
     </select>

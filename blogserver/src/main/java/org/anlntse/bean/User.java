@@ -10,9 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by anlntse on 2017/12/17.
- */
+ * @author: Jun Xie
+ * @date: 7/19/21
+ **/
+
 public class User implements UserDetails {
+
     private Long id;
     private String username;
     private String password;
