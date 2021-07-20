@@ -3,10 +3,6 @@ package org.anlntse.bean;
 import org.anlntse.contants.SpEndpointType;
 import org.anlntse.contants.SpResourceStatus;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
 
 /**
  * @program: VBlog

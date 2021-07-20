@@ -3,11 +3,9 @@ package org.anlntse.bean;
 
 import org.anlntse.contants.RecordStatus;
 
-import javax.persistence.MappedSuperclass;
 import java.util.Date;
 import java.util.UUID;
 
-@MappedSuperclass
 public abstract class BaseEntity {
 
     private UUID id;

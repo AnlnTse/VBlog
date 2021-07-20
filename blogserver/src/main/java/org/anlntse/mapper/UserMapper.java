@@ -9,8 +9,9 @@ import org.anlntse.bean.User;
 import java.util.List;
 
 /**
- * Created by anlntse on 2017/12/17.
- */
+ * @author: Jun Xie
+ * @date: 7/20/21
+ **/
 @Mapper
 public interface UserMapper {
 
